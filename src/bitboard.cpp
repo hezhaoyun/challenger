@@ -30,7 +30,7 @@ CACHE_LINE_ALIGNMENT
 
 Bitboard RMasks[SQUARE_NB];
 
-Bitboard RookR0[SQUARE_NB][128];//²»ĞèÒª512£¬ ÒòÎª±ß×ÓÓĞÎŞÊÇ¶àÓàµÄ£¬ÏÂÃæÔ­ÀíÏàÍ¬
+Bitboard RookR0[SQUARE_NB][128];//ä¸éœ€è¦512ï¼Œ å› ä¸ºè¾¹å­æœ‰æ— æ˜¯å¤šä½™çš„ï¼Œä¸‹é¢åŸç†ç›¸åŒ
 Bitboard RookRL90[SQUARE_NB][256];
 Bitboard CannonSupperR0[SQUARE_NB][128];
 Bitboard CannonSupperRL90[SQUARE_NB][256];
@@ -50,7 +50,7 @@ Bitboard FileBB[FILE_NB];
 Bitboard RankBB[RANK_NB];
 Bitboard AdjacentFilesBB[FILE_NB];
 Bitboard InFrontBB[COLOR_NB][RANK_NB];
-Bitboard StepAttacksBB[PIECE_NB][SQUARE_NB];//¼È¿ÉÓÃÓÚ1-7ÀàĞÍµÄ×Ó£¬Ò²¿ÉÒÔÓÃÓÚ1-7 9-15ÀàĞÍµÄ×Ó£¬ÒòÎª¶Ô³ÆĞÔÖÊ,
+Bitboard StepAttacksBB[PIECE_NB][SQUARE_NB];//æ—¢å¯ç”¨äº1-7ç±»å‹çš„å­ï¼Œä¹Ÿå¯ä»¥ç”¨äº1-7 9-15ç±»å‹çš„å­ï¼Œå› ä¸ºå¯¹ç§°æ€§è´¨,
 Bitboard BetweenBB[SQUARE_NB][SQUARE_NB];
 Bitboard DistanceRingsBB[SQUARE_NB][10];
 Bitboard ForwardBB[COLOR_NB][SQUARE_NB];
@@ -511,7 +511,7 @@ void Bitboards::init() {
 				// }
 				//}
 				// rook rank
-				// ±ß×ÓÊÇÎŞ¹Ø½ôÒªµÄ£¬¼´²»¹ÜÓĞÃ»ÓĞ×Ó£¬¶¼ÈÏÎª¿ÉÒÔ³Ôµ½
+				// è¾¹å­æ˜¯æ— å…³ç´§è¦çš„ï¼Œå³ä¸ç®¡æœ‰æ²¡æœ‰å­ï¼Œéƒ½è®¤ä¸ºå¯ä»¥åƒåˆ°
 				for(int i = 0; i < 128; ++i)
 				{         
 					int f;
@@ -616,7 +616,7 @@ void Bitboards::init() {
 				//}
 
 				// cannon rank
-				// ±ß×ÓÊÇÎŞ¹Ø½ôÒªµÄ£¬¼´²»¹ÜÓĞÃ»ÓĞ×Ó£¬¶¼ÈÏÎª¿ÉÒÔ³Ôµ½£¬ÓërookÏàÍ¬
+				// è¾¹å­æ˜¯æ— å…³ç´§è¦çš„ï¼Œå³ä¸ç®¡æœ‰æ²¡æœ‰å­ï¼Œéƒ½è®¤ä¸ºå¯ä»¥åƒåˆ°ï¼Œä¸rookç›¸åŒ
 				for(int i = 0; i < 128; ++i)
 				{         
 					int f;

@@ -29,14 +29,14 @@ using std::string;
 
 namespace {
 
-	//¸ù¾İ"KPK"ÕâÑùµÄ×Ö·û´®¼ÆËãhashkey,ÕâÀïÊÇÈ¡ÇÉµÄÒ»ÖÖ·½·¨  
+	//æ ¹æ®"KPK"è¿™æ ·çš„å­—ç¬¦ä¸²è®¡ç®—hashkey,è¿™é‡Œæ˜¯å–å·§çš„ä¸€ç§æ–¹æ³•  
 	Key key(const string& code, Color c) {
 
 		assert(code.length() > 0 && code.length() < 8);
 		assert(code[0] == 'K');
 
-		//¸ù¾İc×ª»»×Ö·û´®£¬±ø¹¹Ôìfen´®£¬×îºóÍ¨¹ıpositionÀ´¼ÆËãmaterial key
-		//Í¨¹ıÕâ¸ökeyÀ´Ó³ÉäÔÚendgameÊÇ·ñ¸ö¹Ì¶¨µÄ×ÓÁ¦¶Ô±È
+		//æ ¹æ®cè½¬æ¢å­—ç¬¦ä¸²ï¼Œå…µæ„é€ fenä¸²ï¼Œæœ€åé€šè¿‡positionæ¥è®¡ç®—material key
+		//é€šè¿‡è¿™ä¸ªkeyæ¥æ˜ å°„åœ¨endgameæ˜¯å¦ä¸ªå›ºå®šçš„å­åŠ›å¯¹æ¯”
 		string sides[] = { code.substr(code.find('K', 1)),      // Weaker
 			code.substr(0, code.find('K', 1)) }; // Stronger
 
@@ -98,7 +98,7 @@ ScaleFactor Endgame<KdaKd>::operator()(const Position& pos) const {
 	{
 		if(wdb == 0 && wda == 0)
 		{
-			//µ¥±ø¶Ôµ¥½«,Ö»Òª²»ÊÇµ×Ïß£¬²»ºÍ
+			//å•å…µå¯¹å•å°†,åªè¦ä¸æ˜¯åº•çº¿ï¼Œä¸å’Œ
 			Square psq  = pos.list<PAWN>(strongerSide)[0];
 			if(rank_of(psq) == RANK_0 || rank_of(psq) == RANK_9)
 			{				

@@ -136,9 +136,9 @@ PieceType min_attacker(const Bitboard* bb, const Square& to, const Bitboard& stm
   occl90 ^= square_rotate_l90_bb(lsb(b));
   occ    ^= b & ~(b.operator -(1));
 
-  //¸Ãº¯Êı½ö¶ÔsliderÀàĞÍµÄpiece¼ÆËã
-  //ÅÚ£¬³µºÍ±øÊÇ¸ÃÖÖÀàĞÍ
-  //PAWNÓ¦¸ÃÊÇ×îÏÈ²úÉúµÄ£¬ÔÚºóÃæµÄ&Ö®ºó£¬PAWNÓ¦¸Ã²»»áÔÙÓĞÁË?
+  //è¯¥å‡½æ•°ä»…å¯¹sliderç±»å‹çš„pieceè®¡ç®—
+  //ç‚®ï¼Œè½¦å’Œå…µæ˜¯è¯¥ç§ç±»å‹
+  //PAWNåº”è¯¥æ˜¯æœ€å…ˆäº§ç”Ÿçš„ï¼Œåœ¨åé¢çš„&ä¹‹åï¼ŒPAWNåº”è¯¥ä¸ä¼šå†æœ‰äº†?
   if(Pt == PAWN || Pt == ROOK){
 	  attackers |= rook_attacks_bb(to, occ, occl90) & bb[ROOK];
 	  attackers |= cannon_control_bb(to, occ, occl90) & bb[CANNON];
@@ -170,15 +170,15 @@ CheckInfo::CheckInfo(const Position& pos) {
   dcCandidates = pos.discovered_check_candidates();
   forbid = pos.cannon_forbid_bb(them);
 
-  //checkSqÊÇÄÇĞ©¿ÉÒÔ½«¾üµÄÎ»ÖÃ,ÕâĞ©Î»ÖÃ¿ÉÄÜÓĞ×Ó£¬Ò²¿ÉÄÜÃ»×Ó£»
-  //ÓÃÓÚÅĞ¶ÏÄ³¸ömoveÊÇ·ñ½«¾ü
-  //ÔÚgen quiet check move ¿ÉÌá¸ßËÙ¶È
+  //checkSqæ˜¯é‚£äº›å¯ä»¥å°†å†›çš„ä½ç½®,è¿™äº›ä½ç½®å¯èƒ½æœ‰å­ï¼Œä¹Ÿå¯èƒ½æ²¡å­ï¼›
+  //ç”¨äºåˆ¤æ–­æŸä¸ªmoveæ˜¯å¦å°†å†›
+  //åœ¨gen quiet check move å¯æé«˜é€Ÿåº¦
 
   checkSq[PAWN]   = pos.attacks_from_pawn_nomask(ksq, them); 
-  checkSq[KNIGHT] = knight_attacks_to_bb(ksq,pos.occupied);//knight_attackers_to_bb(ksq, pos.pieces(KNIGHT), pos.occupied);½ÏÂı
-  checkSq[CANNON] = pos.attacks_from<CANNON>(ksq);//Òª×¢ÒâÅÜÑØ×Åking·½ÏòÒÆ¶¯,ÕâÀïÖ»ÄÜÕâÑù£¬ÒªÔÚÊ¹ÓÃµÄµØ·½ÅĞ¶Ï£¬±ÈÈç£ºc--b-k**b,*´¦¿ÉÄÜÈÏÎªÊÇ±ÜÃâ½«¾üµÄtoÎ»ÖÃ
+  checkSq[KNIGHT] = knight_attacks_to_bb(ksq,pos.occupied);//knight_attackers_to_bb(ksq, pos.pieces(KNIGHT), pos.occupied);è¾ƒæ…¢
+  checkSq[CANNON] = pos.attacks_from<CANNON>(ksq);//è¦æ³¨æ„è·‘æ²¿ç€kingæ–¹å‘ç§»åŠ¨,è¿™é‡Œåªèƒ½è¿™æ ·ï¼Œè¦åœ¨ä½¿ç”¨çš„åœ°æ–¹åˆ¤æ–­ï¼Œæ¯”å¦‚ï¼šc--b-k**b,*å¤„å¯èƒ½è®¤ä¸ºæ˜¯é¿å…å°†å†›çš„toä½ç½®
 
-  checkSq[ROOK]   = pos.attacks_from<ROOK>(ksq);//²»»á½«¾ü£¬¿Éµ±ÅÚ¼Ü»òrookµÄblock£¬gen quiet checkÌØ±ğ´¦Àí
+  checkSq[ROOK]   = pos.attacks_from<ROOK>(ksq);//ä¸ä¼šå°†å†›ï¼Œå¯å½“ç‚®æ¶æˆ–rookçš„blockï¼Œgen quiet checkç‰¹åˆ«å¤„ç†
   
   checkSq[KING]   = Bitboard();
   checkSq[BISHOP] = Bitboard();
@@ -460,7 +460,7 @@ Bitboard Position::hidden_checkers(Square ksq, Color c) const {
   Bitboard b, pinners, result;
 
   //// Pinners are sliders that give check when pinned piece is removed
-   //rookÓÚ¹ú¼ÊÏóÆåÏàÍ¬
+   //rookäºå›½é™…è±¡æ£‹ç›¸åŒ
     pinners = (pieces( ROOK) & PseudoAttacks[ROOK][ksq]) & pieces(c);
 	while (pinners)
 	{
@@ -471,17 +471,17 @@ Bitboard Position::hidden_checkers(Square ksq, Color c) const {
 	}
 
 	//cannon
-    pinners = (pieces( CANNON) & PseudoAttacks[ROOK][ksq]) & pieces(c);//ÓÃROOKµÄPseudoAttacks£¬½ö½öËµÃ÷Í¬ĞĞÍ¬ÁĞ
+    pinners = (pieces( CANNON) & PseudoAttacks[ROOK][ksq]) & pieces(c);//ç”¨ROOKçš„PseudoAttacksï¼Œä»…ä»…è¯´æ˜åŒè¡ŒåŒåˆ—
 	while (pinners)
 	{
 		b = between_bb(ksq, pop_lsb(&pinners)) & pieces();
 
 		if (equal_to_two(b))
-			result |= b & pieces(sideToMove);//ÖĞ¼äÓĞ¸ö×ÓÊÇsideToMove·½µÄ£¬¸Ã×ÓÒÆ¶¯ºó»á½«¾ü
+			result |= b & pieces(sideToMove);//ä¸­é—´æœ‰ä¸ªå­æ˜¯sideToMoveæ–¹çš„ï¼Œè¯¥å­ç§»åŠ¨åä¼šå°†å†›
 	}
 
 	//knight
-	//ksqÔÚÂí½Å£¬ÂíÍÈÊÇsideToMove·½Æå×Ó£¬s´¦ÊÂc·½µÄ×Ó
+	//ksqåœ¨é©¬è„šï¼Œé©¬è…¿æ˜¯sideToMoveæ–¹æ£‹å­ï¼Œså¤„äº‹cæ–¹çš„å­
 
 	pinners = pieces(c, KNIGHT) & pieces(c);
 	while(pinners)
@@ -509,16 +509,16 @@ Bitboard Position::hidden_checkers(Square ksq, Color c) const {
 	}
 
 	//king
-	//²»»áking½«king,
-	//´Ë´¦µÄpin¿É×÷ÎªºòÑ¡½«¾ü×Ó£¬ËùÒÔ´Ë´¦²»ÄÜ´¦Àí¶ÔÁ³Çé¿ö
+	//ä¸ä¼škingå°†king,
+	//æ­¤å¤„çš„pinå¯ä½œä¸ºå€™é€‰å°†å†›å­ï¼Œæ‰€ä»¥æ­¤å¤„ä¸èƒ½å¤„ç†å¯¹è„¸æƒ…å†µ
 
 
-	//Âí£¬ÅÚ£¬±øµÈĞè¸ù¾İÓ¦ÓÃÀ´ÅĞ¶Ï
-	//±ø¿ÉÄÜ²»ĞèÒª£¬Òò±ø²»¿ÉÄÜÇ£ÖÆ
-	//½«ÓÚË§µÄÇ£ÖÆ¿ÉÄÜÒª¿¼ÂÇ
-	//ÅÚµÄÇ£ÖÆ¿ÉÄÜÒª¿¼ÂÇ
+	//é©¬ï¼Œç‚®ï¼Œå…µç­‰éœ€æ ¹æ®åº”ç”¨æ¥åˆ¤æ–­
+	//å…µå¯èƒ½ä¸éœ€è¦ï¼Œå› å…µä¸å¯èƒ½ç‰µåˆ¶
+	//å°†äºå¸…çš„ç‰µåˆ¶å¯èƒ½è¦è€ƒè™‘
+	//ç‚®çš„ç‰µåˆ¶å¯èƒ½è¦è€ƒè™‘
 
-    //×Ü½á£º¸Ãº¯ÊıµÄ×÷ÓÃÊÇÑ°ÕÒÒş²ØµÄ½«¾ü×Ó£¬¿ÉÄÜµÄ×ÓÊÇrook£¬cannon£¬knight
+    //æ€»ç»“ï¼šè¯¥å‡½æ•°çš„ä½œç”¨æ˜¯å¯»æ‰¾éšè—çš„å°†å†›å­ï¼Œå¯èƒ½çš„å­æ˜¯rookï¼Œcannonï¼Œknight
 
   return result;
 }
@@ -526,13 +526,13 @@ Bitboard Position::hidden_checkers(Square ksq, Color c) const {
 
 /// Position::attackers_to() computes a bitboard of all pieces which attack a
 /// given square. Slider attacks use occ bitboard as occupancy.
-//Ö»ÄÜÓÃ²ÎÊı´«½øÀ´µÄocc£¬¼ûsee;º¯Êı×÷ÓÃÊÇÑ°ÕÒÄÇĞ©¿ÉÒÔ¹¥»÷µ½sÎ»ÖÃµÄ×Ó
+//åªèƒ½ç”¨å‚æ•°ä¼ è¿›æ¥çš„occï¼Œè§see;å‡½æ•°ä½œç”¨æ˜¯å¯»æ‰¾é‚£äº›å¯ä»¥æ”»å‡»åˆ°sä½ç½®çš„å­
 Bitboard Position::attackers_to(Square s, Bitboard occ, Bitboard occl90) const {
 
   return
-		  (attacks_from_pawn_nomask(s, BLACK) & pieces(WHITE, PAWN))//ÓĞ·½ÏòÎÊÌâ£¬ËùÒÔÓÃnomaskµÄ
+		  (attacks_from_pawn_nomask(s, BLACK) & pieces(WHITE, PAWN))//æœ‰æ–¹å‘é—®é¢˜ï¼Œæ‰€ä»¥ç”¨nomaskçš„
 		| (attacks_from_pawn_nomask(s, WHITE) & pieces(BLACK, PAWN))
-		| (knight_attackers_to_bb(s, pieces(KNIGHT), occ))  //| (knight_attacks_bb(s, occ) & pieces(KNIGHT)) //ÕâÀïÓĞÎÊÌâ£¬a¿ÉÒÔ¹¥»÷b£¬²»ÒâÎ¶×Åb¹¥»÷aÎ»ÖÃ 
+		| (knight_attackers_to_bb(s, pieces(KNIGHT), occ))  //| (knight_attacks_bb(s, occ) & pieces(KNIGHT)) //è¿™é‡Œæœ‰é—®é¢˜ï¼Œaå¯ä»¥æ”»å‡»bï¼Œä¸æ„å‘³ç€bæ”»å‡»aä½ç½® 
 		| (rook_attacks_bb(s,occ,occl90)& pieces(ROOK))                
 		| (cannon_control_bb(s, occ,occl90) & pieces(CANNON))             
 		| (bishop_attacks_bb(s,occ)   & pieces(BISHOP))
@@ -558,7 +558,7 @@ Bitboard Position::attacks_from(Piece p, Square s, Bitboard occ, Bitboard occl90
   case ADVISOR:return StepAttacksBB[p][s];
   case KING:   return StepAttacksBB[p][s];
   case PAWN:   return StepAttacksBB[p][s]; 
-  default    : return StepAttacksBB[p][s];//ÕâÀïpÀàĞÍÊÇ¶ÔµÄ
+  default    : return StepAttacksBB[p][s];//è¿™é‡Œpç±»å‹æ˜¯å¯¹çš„
   }
 }
 
@@ -606,7 +606,7 @@ bool Position::is_pseudo_legal(const Move m) const {
       return false;
 
 
-  //ÅÚÒªÌØ±ğ´¦Àí£¬attacks_from¼ÆËãµÄÊÂcannon¿ÉÒÔ¿ØÖÆµÄÇøÓò
+  //ç‚®è¦ç‰¹åˆ«å¤„ç†ï¼Œattacks_fromè®¡ç®—çš„äº‹cannonå¯ä»¥æ§åˆ¶çš„åŒºåŸŸ
   switch (type_of(pc))
   {
   case ROOK  : 
@@ -627,7 +627,7 @@ bool Position::is_pseudo_legal(const Move m) const {
 		  else
 		  {
 			  if( !(cannon_control_bb(from,occupied,occupied_rl90) & to))
-			  //if( !(between_bb(from, to) & pieces()) )//²»ÄÜÓÃÕâÖÖ·½Ê½£¬ÒòÎªÖĞ¼ä¿ÉÄÜÓĞ¶à¸ö×Ó
+			  //if( !(between_bb(from, to) & pieces()) )//ä¸èƒ½ç”¨è¿™ç§æ–¹å¼ï¼Œå› ä¸ºä¸­é—´å¯èƒ½æœ‰å¤šä¸ªå­
 			  {
 				  return false;
 			  }
@@ -694,7 +694,7 @@ bool Position::move_gives_check(Move m, const CheckInfo& ci) const {
 	  return true;
   else if(pt == CANNON)
   {
-	  //from²»ÓëkingÍ¬ĞĞÍ¬ÁĞÊ±³ÉÁ¢
+	  //fromä¸ä¸kingåŒè¡ŒåŒåˆ—æ—¶æˆç«‹
      if( !(PseudoAttacks[ROOK][from] & king_square(~sideToMove)) )
 	 {
 		 if((ci.checkSq[pt] & to))
@@ -741,7 +741,7 @@ bool Position::move_gives_check(Move m, const CheckInfo& ci) const {
 
   Square s = king_square(~sideToMove); 
   
-  //°Ñ¿ÉÄÜ×î´óµÄ·ÅÔÚÇ°Ãæ
+  //æŠŠå¯èƒ½æœ€å¤§çš„æ”¾åœ¨å‰é¢
   if(cannon_control_bb(s, occ,occl90) & cannons)
 	  return true;
   if(rook_attacks_bb(s,occ,occl90)& rooks)
@@ -881,7 +881,7 @@ void Position::do_move(Move m, StateInfo& newSt, const CheckInfo& ci, bool moveI
       // Update material hash key and prefetch access to materialTable
       k ^= Zobrist::psq[them][capture][capsq];
       st->materialKey ^= Zobrist::psq[them][capture][pieceCount[them][capture]];
-	  //ÔİÊ±È¥³ı
+	  //æš‚æ—¶å»é™¤
       prefetch((char*)thisThread->materialTable[st->materialKey]);
 
       // Update incremental scores
@@ -895,7 +895,7 @@ void Position::do_move(Move m, StateInfo& newSt, const CheckInfo& ci, bool moveI
   k ^= Zobrist::psq[us][pt][from] ^ Zobrist::psq[us][pt][to];
 
   // Prefetch TT access as soon as we know the new hash key
-  //ÔİÊ±È¥³ı
+  //æš‚æ—¶å»é™¤
   prefetch((char*)TT.first_entry(k));
 
   // Move the piece. The tricky Chess960 castle is handled earlier
@@ -906,7 +906,7 @@ void Position::do_move(Move m, StateInfo& newSt, const CheckInfo& ci, bool moveI
   {
       // Update pawn hash key and prefetch access to pawnsTable
       st->pawnKey ^= Zobrist::psq[us][PAWN][from] ^ Zobrist::psq[us][PAWN][to];
-	  //ÔİÊ±È¥³ı
+	  //æš‚æ—¶å»é™¤
       prefetch((char*)thisThread->pawnsTable[st->pawnKey]);
 
       // Reset rule 50 draw counter
@@ -979,7 +979,7 @@ void Position::do_null_move(StateInfo& newSt) {
   st = &newSt;
 
   st->key ^= Zobrist::side;
-  //ÔİÊ±È¥³ı
+  //æš‚æ—¶å»é™¤
   prefetch((char*)TT.first_entry(st->key));
 
   st->rule50++;
@@ -1032,18 +1032,18 @@ int Position::see(Move m, int asymmThreshold) const {
   to = to_sq(m);
   swapList[0] = PieceValue[MG][type_of(piece_on(to))];
   stm = color_of(piece_on(from));
-  occ = pieces() ^ from;//È¥³ıfrom
+  occ = pieces() ^ from;//å»é™¤from
   occl90 = occupied_rl90 ^ square_rotate_l90_bb(from);
 
 
   // Find all attackers to the destination square, with the moving piece
   // removed, but possibly an X-ray attacker added behind it.
-  attackers = attackers_to(to, occ, occl90) & occ;//ËùÓĞµÄattacker,×¢Òâ£ºÕâÀï¼ÙÉètoÎ»ÖÃµÄ×ÓÀàĞÍ£¬½á¹ûÊÇËùÓĞ¹¥»÷toÎ»ÖÃµÄ×Ó£¬°üÀ¨±¾·½£¬¶Ô·½
+  attackers = attackers_to(to, occ, occl90) & occ;//æ‰€æœ‰çš„attacker,æ³¨æ„ï¼šè¿™é‡Œå‡è®¾toä½ç½®çš„å­ç±»å‹ï¼Œç»“æœæ˜¯æ‰€æœ‰æ”»å‡»toä½ç½®çš„å­ï¼ŒåŒ…æ‹¬æœ¬æ–¹ï¼Œå¯¹æ–¹
 
 
   // If the opponent has no attackers we are finished
   stm = ~stm;
-  stmAttackers = attackers & pieces(stm);//ÏàÓëÖ®ºó£¬¾ÍÊÇ¶Ô·½¹¥»÷toÎ»ÖÃµÄ×Ó
+  stmAttackers = attackers & pieces(stm);//ç›¸ä¸ä¹‹åï¼Œå°±æ˜¯å¯¹æ–¹æ”»å‡»toä½ç½®çš„å­
   if (!stmAttackers)
       return swapList[0];
 
@@ -1053,25 +1053,25 @@ int Position::see(Move m, int asymmThreshold) const {
   // destination square, where the sides alternately capture, and always
   // capture with the least valuable piece. After each capture, we look for
   // new X-ray attacks from behind the capturing piece.
-  captured = type_of(piece_on(from));//fromµÄ×Ó³Ôµ½toÎ»ÖÃºó£¬±äÎª¶Ô·½Òª³ÔµÃ×Ó£¬ËùÀïÕâÀïÏàµ±ÓÚ½»»»side
+  captured = type_of(piece_on(from));//fromçš„å­åƒåˆ°toä½ç½®åï¼Œå˜ä¸ºå¯¹æ–¹è¦åƒå¾—å­ï¼Œæ‰€é‡Œè¿™é‡Œç›¸å½“äºäº¤æ¢side
 
   do {
       assert(slIndex < 32);
 
       // Add the new entry to the swap list
-      swapList[slIndex] = -swapList[slIndex - 1] + PieceValue[MG][captured];//Ïàµ±ÓÚ½»»»ÊÖ£¬Ïà·´·½Ïò¼Ó×ÓµÄ·ÖÖµ
+      swapList[slIndex] = -swapList[slIndex - 1] + PieceValue[MG][captured];//ç›¸å½“äºäº¤æ¢æ‰‹ï¼Œç›¸åæ–¹å‘åŠ å­çš„åˆ†å€¼
       slIndex++;
 
       // Locate and remove the next least valuable attacker
-	  //ÕâÊÇÒ»¸öµİ¹éÄ£°å£¬PAWN~KING
-      captured = min_attacker<PAWN>(byTypeBB, to, stmAttackers, occ, occl90, attackers);//Ö»ÕÒslidderÀàĞÍ£¬1142 line ÖĞÒÑÕÒµ½ËùÓĞÒ»²½³Ô×Ó£¬ÕâÀïÖ»ÄÜÊÇrook£¬ cannonÖ®Àà
+	  //è¿™æ˜¯ä¸€ä¸ªé€’å½’æ¨¡æ¿ï¼ŒPAWN~KING
+      captured = min_attacker<PAWN>(byTypeBB, to, stmAttackers, occ, occl90, attackers);//åªæ‰¾slidderç±»å‹ï¼Œ1142 line ä¸­å·²æ‰¾åˆ°æ‰€æœ‰ä¸€æ­¥åƒå­ï¼Œè¿™é‡Œåªèƒ½æ˜¯rookï¼Œ cannonä¹‹ç±»
       stm = ~stm;
-      stmAttackers = attackers & pieces(stm);//½»»»side
+      stmAttackers = attackers & pieces(stm);//äº¤æ¢side
 
       // Stop before processing a king capture
       if (captured == KING && stmAttackers)
       {
-          swapList[slIndex++] = RookValueMg * 16;//Ìæ»»ÁËÔ­QeenValueMg
+          swapList[slIndex++] = RookValueMg * 16;//æ›¿æ¢äº†åŸQeenValueMg
           break;
       }
 
@@ -1089,7 +1089,7 @@ int Position::see(Move m, int asymmThreshold) const {
   // Having built the swap list, we negamax through it to find the best
   // achievable score from the point of view of the side to move.
   while (--slIndex)
-      swapList[slIndex-1] = std::min(-swapList[slIndex], swapList[slIndex-1]);//Õâ¸ö¹ı³ÌÏàµ±ÓÚnegamax
+      swapList[slIndex-1] = std::min(-swapList[slIndex], swapList[slIndex-1]);//è¿™ä¸ªè¿‡ç¨‹ç›¸å½“äºnegamax
 
   return swapList[0];
 }

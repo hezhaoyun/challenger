@@ -246,7 +246,7 @@ namespace Material {
 		Value npm_b = pos.non_pawn_material(BLACK);
 
 
-		//当子多的时候，space比重加大
+		//褰撳瓙澶氱殑鏃跺�欙紝space姣旈噸鍔犲ぇ
 		if (npm_w + npm_b >= 2* RookValueMg + 4 * KnightValueMg + 2*CannonValueMg)
 		{
 			int minorPieceCount =  pos.count<KNIGHT>(WHITE) + pos.count<ROOK>(WHITE)

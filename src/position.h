@@ -214,7 +214,7 @@ private:
   Value compute_attack_material(Color c) const;
 
   public:
-	  //ºóÃæÌí¼ÓµÄ£¬ÎªÁË´¦ÀírookºÍcannonµÄ¸ù¾İĞĞ»òÁĞÒ»´Î¹¹½¨ÕĞ·¨Î»ÆåÅÌ£»
+	  //åé¢æ·»åŠ çš„ï¼Œä¸ºäº†å¤„ç†rookå’Œcannonçš„æ ¹æ®è¡Œæˆ–åˆ—ä¸€æ¬¡æ„å»ºæ‹›æ³•ä½æ£‹ç›˜ï¼›
 	  Bitboard occupied, occupied_rl90;
 
   private:
@@ -301,10 +301,10 @@ inline Square Position::king_square(Color c) const {
   return pieceList[c][KING][0];
 }
 
-//ÓÉÓÚ×ÓÓĞ¶Ô³ÆĞÔ£¬R_ROOKÓëB_ROOKÕâÖÖ£¬ÓÃÄÄ¸ö¼ÆËã¶¼Ã»ÓĞ¹ØÏµ£¬µ«ÊÇÏñBISHOP, ADVISOR, PAWN, KINGÕâÖÖ£¬²»¾ßÓĞÎ»ÖÃ
-//µÄ¶Ô³ÆĞÔ£¬ÕâÑù¼ÆËã»á³öÏÖÎÊÌâ£»
-//ÅĞ¶ÏÄ³¸ö×ÓÊÇ·ñÊÜµ½¹¥»÷£¬ÍùÍù²ÉÓÃ£º¼ÙÉèÕâ¸ö×ÓÊÇÄ³ÖÖÀàĞÍµÄ×Ó£¬·´¹ıÀ´¼ÆËã¹¥»÷Î»ÖÃ£¬²»¾ßÓĞ¶Ô³ÆĞÔµÄ×Ó
-//»áµÃµ½´íÎóµÄ½á¹û£¬·ÀÖ¹ÎóÓÃ£¬¸É´à·Ö±ğÊµÀı»¯
+//ç”±äºå­æœ‰å¯¹ç§°æ€§ï¼ŒR_ROOKä¸B_ROOKè¿™ç§ï¼Œç”¨å“ªä¸ªè®¡ç®—éƒ½æ²¡æœ‰å…³ç³»ï¼Œä½†æ˜¯åƒBISHOP, ADVISOR, PAWN, KINGè¿™ç§ï¼Œä¸å…·æœ‰ä½ç½®
+//çš„å¯¹ç§°æ€§ï¼Œè¿™æ ·è®¡ç®—ä¼šå‡ºç°é—®é¢˜ï¼›
+//åˆ¤æ–­æŸä¸ªå­æ˜¯å¦å—åˆ°æ”»å‡»ï¼Œå¾€å¾€é‡‡ç”¨ï¼šå‡è®¾è¿™ä¸ªå­æ˜¯æŸç§ç±»å‹çš„å­ï¼Œåè¿‡æ¥è®¡ç®—æ”»å‡»ä½ç½®ï¼Œä¸å…·æœ‰å¯¹ç§°æ€§çš„å­
+//ä¼šå¾—åˆ°é”™è¯¯çš„ç»“æœï¼Œé˜²æ­¢è¯¯ç”¨ï¼Œå¹²è„†åˆ†åˆ«å®ä¾‹åŒ–
 //template<PieceType Pt>
 //inline Bitboard Position::attacks_from(Square s) const {
 //
@@ -320,7 +320,7 @@ inline Square Position::king_square(Color c) const {
 //		:  Pt == CANNON ? cannon_control_bb(s, occupied, occupied_rl90)
 //		:  Pt == KNIGHT ? knight_attacks_bb(s,occupied) 
 //		:  Pt == BISHOP ? bishop_attacks_bb(s,occupied) 
-//		:  StepAttacksBB[Pt][s];//Èç¹ûÊÇpawn£¬advisor,bishop£¬²»¾ßÓĞ¶Ô³ÆĞÔ?
+//		:  StepAttacksBB[Pt][s];//å¦‚æœæ˜¯pawnï¼Œadvisor,bishopï¼Œä¸å…·æœ‰å¯¹ç§°æ€§?
 //}
 
 template<>
@@ -378,7 +378,7 @@ inline Bitboard Position::checkers() const {
 }
 
 inline Bitboard Position::discovered_check_candidates() const {
-  return hidden_checkers(king_square(~sideToMove), sideToMove);//»¹ÒªÔö¼Ó³äµ±ÅÚ¼Ü×ÓµÄ×Ó,´¦ÀíÆğÀ´¸´ÔÓ
+  return hidden_checkers(king_square(~sideToMove), sideToMove);//è¿˜è¦å¢åŠ å……å½“ç‚®æ¶å­çš„å­,å¤„ç†èµ·æ¥å¤æ‚
 }
 
 inline Bitboard Position::pinned_pieces() const {

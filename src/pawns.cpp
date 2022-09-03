@@ -82,7 +82,7 @@ namespace {
     const Square Right = (Us == WHITE ? DELTA_E : DELTA_W);
     const Square Left  = (Us == WHITE ? DELTA_W : DELTA_E);
 
-	//¹ýºÓ±ø£¬ Á¬±ø£¬ ½ø¾Å¹¬µÄ±ø£¬µ×Ïß±ø£¬Ç°ÃæÃ»ÓÐ¶Ô·½±øµÄ±ø,×è°­ÎÒ·½ÂíÍÈµÄ±øÇ°ÏòµÄ
+	//è¿‡æ²³å…µï¼Œ è¿žå…µï¼Œ è¿›ä¹å®«çš„å…µï¼Œåº•çº¿å…µï¼Œå‰é¢æ²¡æœ‰å¯¹æ–¹å…µçš„å…µ,é˜»ç¢æˆ‘æ–¹é©¬è…¿çš„å…µå‰å‘çš„
 
     Bitboard b;
     Square s;
@@ -99,7 +99,7 @@ namespace {
 
     e->passedPawns[Us] = Bitboard();
     e->kingSquares[Us] = SQ_NONE;
-    e->semiopenFiles[Us] = 0x1FF;//×ÝÏòÍ¨Â·
+    e->semiopenFiles[Us] = 0x1FF;//çºµå‘é€šè·¯
     e->pawnAttacks[Us] = (shift_bb<Right>(ourPawns) | shift_bb<Left>(ourPawns)|shift_bb<Up>(ourPawns))&PawnMask[Us];
     e->pawnsOnSquares[Us][BLACK] = popcount<CNT_90>(ourPawns & DarkSquares);
     e->pawnsOnSquares[Us][WHITE] = pos.count<PAWN>(Us) - e->pawnsOnSquares[Us][BLACK];
@@ -109,35 +109,35 @@ namespace {
     {
         assert(pos.piece_on(s) == make_piece(Us, PAWN));
 
-        f = file_of(s);//Í¬ÁÐ
+        f = file_of(s);//åŒåˆ—
 
         // This file cannot be semi-open
-        e->semiopenFiles[Us] &= ~(1 << f);//ÓÐÎÒ·½±ø£¬²»ÊÇfileÍ¨Â·
+        e->semiopenFiles[Us] &= ~(1 << f);//æœ‰æˆ‘æ–¹å…µï¼Œä¸æ˜¯fileé€šè·¯
 
         // Our rank plus previous one. Used for chain detection
-        b = rank_bb(s) | rank_bb(s - pawn_push(Us));//Í¬ÐÐºÍºóÃæµÄÎ»ÖÃ
+        b = rank_bb(s) | rank_bb(s - pawn_push(Us));//åŒè¡Œå’ŒåŽé¢çš„ä½ç½®
 
         // Flag the pawn as passed, isolated, doubled or member of a pawn
         // chain (but not the backward one).
-        chain    =   (ourPawns&(~SquareBB[s]) ) & (adjacent_files_bb(f)|FileBB[f]) & b;//ºóÃæºÍ×óÓÒµÄ×Ó//ourPawns   & adjacent_files_bb(f) & b;
-        opposed  =   theirPawns & forward_bb(Us, s);//ÎÒ·½±øÇ°ÃæµÄµÐ·½±ø
-		frontp   =   theirPawns & rank_bb(s + pawn_push(Us)) & (adjacent_files_bb(f)|FileBB[f]);//Ç°ÃæÏàÁÚÐÐ±ø
+        chain    =   (ourPawns&(~SquareBB[s]) ) & (adjacent_files_bb(f)|FileBB[f]) & b;//åŽé¢å’Œå·¦å³çš„å­//ourPawns   & adjacent_files_bb(f) & b;
+        opposed  =   theirPawns & forward_bb(Us, s);//æˆ‘æ–¹å…µå‰é¢çš„æ•Œæ–¹å…µ
+		frontp   =   theirPawns & rank_bb(s + pawn_push(Us)) & (adjacent_files_bb(f)|FileBB[f]);//å‰é¢ç›¸é‚»è¡Œå…µ
 
-		//±ðÎÒ·½ÂíÍÈµÄ±ø
+		//åˆ«æˆ‘æ–¹é©¬è…¿çš„å…µ
 		blockKnight = false;
 		if(outKnights & FileBB[f] & rank_bb(s - pawn_push(Us)))
 		{
 			blockKnight = true;
 		}
 
-        //¹ýºÓ±ø
+        //è¿‡æ²³å…µ
 		passedRiver = false;
 		if(PassedRiverBB[Us] & s)
 		{
 			passedRiver = true;
-            //Á¬±ø
-			//½ø¾Å¹¬µÄ±ø
-			//µ×Ïß±ø
+            //è¿žå…µ
+			//è¿›ä¹å®«çš„å…µ
+			//åº•çº¿å…µ
 		}
 
         if (passedRiver)

@@ -35,20 +35,20 @@ static std::string piece_to_chinese(char p)
 	switch(p)
 	{
 	case ' ': return std::string(" ");
-	case 'P': return std::string("±ø");
-	case 'p': return std::string("×ä");
-	case 'B': return std::string("Ïà");
-	case 'b': return std::string("Ïó");
-	case 'A': return std::string("Ê¿");
-	case 'a': return std::string("ÊÌ");
-	case 'N': return std::string("Âí");
-	case 'n': return std::string("ñR");
-	case 'C': return std::string("ÅÚ");
-	case 'c': return std::string("°ü");
-	case 'R': return std::string("³µ");
-	case 'r': return std::string("Ü‡");
-	case 'K': return std::string("Ë§");
-	case 'k': return std::string("½«");
+	case 'P': return std::string("å…µ");
+	case 'p': return std::string("å’");
+	case 'B': return std::string("ç›¸");
+	case 'b': return std::string("è±¡");
+	case 'A': return std::string("å£«");
+	case 'a': return std::string("ä¾");
+	case 'N': return std::string("é©¬");
+	case 'n': return std::string("é¦¬");
+	case 'C': return std::string("ç‚®");
+	case 'c': return std::string("åŒ…");
+	case 'R': return std::string("è½¦");
+	case 'r': return std::string("è»Š");
+	case 'K': return std::string("å¸…");
+	case 'k': return std::string("å°†");
 	}
 
 	return std::string();

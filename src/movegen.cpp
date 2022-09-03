@@ -100,7 +100,7 @@ bool move_is_legal(const Position& pos, Move move)
 	if( knight_attackers_to_bb(ksq, knights, occ) ) return false;
 	if( pos.attacks_from_pawn_nomask(ksq, us) & pawns ) return false;
 
-	if((PseudoAttacks[ROOK][ksq]& pos.king_square(~us)) && (rook_attacks_bb(ksq,occ,occl90)& pos.king_square(~us))) return false;//¶ÔÁ³
+	if((PseudoAttacks[ROOK][ksq]& pos.king_square(~us)) && (rook_attacks_bb(ksq,occ,occl90)& pos.king_square(~us))) return false;//å¯¹è„¸
 
 	return true;
 }

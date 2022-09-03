@@ -174,7 +174,7 @@ namespace {
 		S(0, 0), S(0, 0), S(10, 10), S(15, 15),   S(26, 29), S(6, 9), S(0, 0)
 	};
 
-	//¿ÕÍ·ÅÚ
+	//ç©ºå¤´ç‚®
 	const Score ShortGunDistance[] = {S(0, 0), S(0, 0),S(0, 0), S(2, 2),S(4, 4), S(6, 6),S(8, 8), S(10, 10),S(10, 10), S(10, 10)};
 	const int   ShortGunPieceCount[] = {0, 0, 0, 0, 10, 8, 15, 0};
 
@@ -515,7 +515,7 @@ namespace {
 		// Initial bonus based on square
 		Value bonus = Outpost[0][relative_square(Us, s)];
 
-		//²»ÄÜ±»¶Ô·½pawn¹¥»÷£¬·ñÔò²»¼Æ·Ö
+		//ä¸èƒ½è¢«å¯¹æ–¹pawnæ”»å‡»ï¼Œå¦åˆ™ä¸è®¡åˆ†
 		if (bonus && (!ei.attackedBy[Them][PAWN] & s))
 		{
 			if (!(ei.attackedBy[Them][BISHOP] & s) &&
@@ -632,19 +632,19 @@ namespace {
 			// give a discovered check through an x-ray attack.
 			else if ( Piece == ROOK)
 			{         
-				//Ç£ÖÆ¶Ô·½µÄking
+				//ç‰µåˆ¶å¯¹æ–¹çš„king
 				if ((PseudoAttacks[Piece][pos.king_square(Them)] & s) && !more_than_one(BetweenBB[s][pos.king_square(Them)] & pos.pieces()))
 				{
 					score += RookPin;
 				}
 
-				//Ç£ÖÆ¶Ô·½µÄROOK
+				//ç‰µåˆ¶å¯¹æ–¹çš„ROOK
 				if (cannon_control_bb(s, pos.occupied, pos.occupied_rl90) & pos.pieces(Them, ROOK))
 				{
 					score += RookPinRook;
 				}
 
-				//ÔÚ×äÁÖÏß
+				//åœ¨å’æ—çº¿
 				if (relative_rank(Us, s) >= RANK_5)
 				{
 					// Major piece attacking enemy pawns on the same rank/file
@@ -653,18 +653,18 @@ namespace {
 						score += popcount<CNT_90>(pawns) * (RookOnPawn);
 				}
 
-				//Í¨Â·³µ
+				//é€šè·¯è½¦
 				if (popcount<CNT_90>(FileBB[file_of(s)] & b) > 4)
 				{
 					score += RookOpenFile;
 				}			
 
 			}
-			//ÅÚµÄÇ£ÖÆ
+			//ç‚®çš„ç‰µåˆ¶
 			else if( Piece == CANNON)
 			{
 
-				//ÅÚµÄÇ£ÖÆking 
+				//ç‚®çš„ç‰µåˆ¶king 
 				if((PseudoAttacks[Piece][pos.king_square(Them)] & s))
 				{
 					Bitboard pin = BetweenBB[s][pos.king_square(Them)] & pos.pieces();
@@ -672,7 +672,7 @@ namespace {
 					{
 						score += CannonPin;
 					}
-					if (!pin)//¿ÕÍ·ÅÚ
+					if (!pin)//ç©ºå¤´ç‚®
 					{
 						if(pos.count<ROOK>(Us) + pos.count<CANNON>(Us) + pos.count<KNIGHT>(Us) > 0)
 						{
@@ -685,18 +685,18 @@ namespace {
 				}
 
 				Bitboard pin = cannon_supper_pin_bb(s, pos.occupied, pos.occupied_rl90);
-				//ÅÚÇ£ÖÆ³µ
+				//ç‚®ç‰µåˆ¶è½¦
 				if (pin & pos.pieces(Them, ROOK))
 				{
 					score += CannonPinRook;
 				}
 
-				//ÅÚÇ£ÖÆÂí
+				//ç‚®ç‰µåˆ¶é©¬
 				if (pin & pos.pieces(Them, KNIGHT))
 				{
 					score += CannonPinKnight;
 				}
-				//ÅÚÇ£ÖÆÏà
+				//ç‚®ç‰µåˆ¶ç›¸
 				if (pin & pos.pieces(Them, BISHOP))
 				{
 					score += CannonPinBishop;
@@ -705,7 +705,7 @@ namespace {
 			}
 			else if (Piece == KNIGHT)
 			{
-				//²»±»¶Ô·½pawnÍşĞ²
+				//ä¸è¢«å¯¹æ–¹pawnå¨èƒ
 				//knight outposts squares			
 				if(  !(pos.pieces(Them, PAWN)&(s + pawn_push(Us) )) )				
 				{
@@ -716,7 +716,7 @@ namespace {
 				if (    relative_rank(Us, s) < RANK_5
 					&& (pos.pieces(PAWN) & (s + pawn_push(Us))))
 				{	
-					score -= KnightLegPawn;//ÎÒ·½±ø°ÑÂíÍÈ±ï×¡ÁË£¬ËùÒÔÒª¼õÈ¥
+					score -= KnightLegPawn;//æˆ‘æ–¹å…µæŠŠé©¬è…¿æ†‹ä½äº†ï¼Œæ‰€ä»¥è¦å‡å»
 				}
 
 				//Traped

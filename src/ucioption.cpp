@@ -96,7 +96,7 @@ void init(OptionsMap& o) {
   typedef Value V;
 #define S(mg, eg) make_score(mg, eg)
 
-  //用于产生tuner文件
+  //鐢ㄤ簬浜х敓tuner鏂囦欢
   //Log log;
 
   //log<<"name,   init,  max,  min,  c_end,  r_end,  elod"<<std::endl;

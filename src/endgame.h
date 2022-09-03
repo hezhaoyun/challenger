@@ -27,10 +27,10 @@
 #include "types.h"
 
 
-//在endgame时的evaluation或者Scaling function
+//鍦╡ndgame鏃剁殑evaluation鎴栬�匰caling function
 enum EndgameType {
 
-  KdKd,//没有attack的子
+  KdKd,//娌℃湁attack鐨勫瓙
 
   SCALE_FUNS,
 

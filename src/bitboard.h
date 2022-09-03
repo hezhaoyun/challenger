@@ -386,22 +386,22 @@ inline Bitboard knight_attacks_bb(Square s, Bitboard occ)
 
 inline Bitboard knight_attacks_bb(Square s)
 {
-	return StepAttacksBB[KNIGHT][s];//Âí²¿·ÖºÚ°×£¬ËùÒÔ¿ÉÒÔÕâÑùÓÃ
+	return StepAttacksBB[KNIGHT][s];//é©¬éƒ¨åˆ†é»‘ç™½ï¼Œæ‰€ä»¥å¯ä»¥è¿™æ ·ç”¨
 }
 
-//¹¥»÷µ½sÎ»ÖÃµÄÂíµÄÎ»ÆåÅÌ£¬ÕæÊµµÄÂíµÄÎ»ÖÃ
+//æ”»å‡»åˆ°sä½ç½®çš„é©¬çš„ä½æ£‹ç›˜ï¼ŒçœŸå®çš„é©¬çš„ä½ç½®
 inline Bitboard knight_attackers_to_bb(Square s, Bitboard occknight, Bitboard occ)
 {
     Bitboard b;
 	
-	Bitboard knights = knight_attacks_bb(s) & occknight;//ÂíµÄÎ»ÖÃ
+	Bitboard knights = knight_attacks_bb(s) & occknight;//é©¬çš„ä½ç½®
 
 	while (knights)
 	{
 		Square k = pop_lsb(&knights);
 
-		//KnightStepTo[k][0]&s ÒâË¼ÊÇ£¬k¹¥»÷µ½s£¬ÒòÎªk¿ÉÒÔÓĞËÄ¸ö·½Ïò
-		if(KnightStepTo[k][0]&s && !(KnightStepLeg[k][0] & occ) && KnightStepLeg[k][0])//ÂíÍÈÃ»×Ó
+		//KnightStepTo[k][0]&s æ„æ€æ˜¯ï¼Œkæ”»å‡»åˆ°sï¼Œå› ä¸ºkå¯ä»¥æœ‰å››ä¸ªæ–¹å‘
+		if(KnightStepTo[k][0]&s && !(KnightStepLeg[k][0] & occ) && KnightStepLeg[k][0])//é©¬è…¿æ²¡å­
 		{
 			b |= k; continue;			
 		}
@@ -423,7 +423,7 @@ inline Bitboard knight_attackers_to_bb(Square s, Bitboard occknight, Bitboard oc
 	return b;
 }
 
-//¿ÉÒÔ¹¥»÷µ½toÎ»ÖÃµÄÎ»ÖÃ,ÓÃÓÚCheckInfo£¬Î»ÖÃµÄÎ»ÖÃ¿ÉÄÜÃ»ÓĞ×Ó
+//å¯ä»¥æ”»å‡»åˆ°toä½ç½®çš„ä½ç½®,ç”¨äºCheckInfoï¼Œä½ç½®çš„ä½ç½®å¯èƒ½æ²¡æœ‰å­
 inline Bitboard knight_attacks_to_bb(Square s, Bitboard occ)
 {
      Bitboard b;
