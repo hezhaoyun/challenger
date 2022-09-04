@@ -34,11 +34,10 @@
 #include "thread.h"
 #include "tt.h"
 #include "ucioption.h"
-#include "command-channel.h"
+#include "challenger-channel.h"
 
 namespace Search
 {
-
     volatile SignalsType Signals;
     LimitsType Limits;
     std::vector<RootMove> RootMoves;
@@ -54,7 +53,6 @@ using namespace Search;
 
 namespace
 {
-
     // Set to true to force running with one thread. Used for debugging
     const bool FakeSplit = false;
 
@@ -81,7 +79,6 @@ namespace
 
     inline Value futility_margin(Depth d, int mn)
     {
-
         return d < 7 * ONE_PLY ? FutilityMargins[std::max(int(d), 1)][std::min(mn, 63)]
                                : 2 * VALUE_INFINITE;
     }
@@ -92,7 +89,6 @@ namespace
     template <bool PvNode>
     inline Depth reduction(bool i, Depth d, int mn)
     {
-
         return (Depth)Reductions[PvNode][i][std::min(int(d) / ONE_PLY, 63)][std::min(mn, 63)];
     }
 
@@ -141,7 +137,6 @@ namespace
 
 void Search::init()
 {
-
     int d;  // depth (ONE_PLY == 2)
     int hd; // half depth (ONE_PLY == 1)
     int mc; // moveCount
@@ -180,7 +175,6 @@ void Search::init()
 
 static size_t perft(Position &pos, Depth depth)
 {
-
     StateInfo st;
     size_t cnt = 0;
     CheckInfo ci(pos);
@@ -206,7 +200,6 @@ size_t Search::perft(Position &pos, Depth depth)
 
 void Search::think()
 {
-
     static PolyglotBook book; // Defined static to initialize the PRNG only once
 
     RootColor = RootPos.side_to_move();
@@ -271,8 +264,7 @@ void Search::think()
         // Set best timer interval to avoid lagging under time pressure. Timer is
         // used to check for remaining available thinking time.
         Threads.timer->msec =
-            Limits.use_time_management() ? std::min(100, std::max(TimeMgr.available_time() / 16, TimerResolution)) : Limits.nodes ? 2 * TimerResolution
-                                                                                                                                  : 100;
+        Limits.use_time_management() ? std::min(100, std::max(TimeMgr.available_time() / 16, TimerResolution)) : Limits.nodes ? 2 * TimerResolution : 100;
 
         Value margin = VALUE_ZERO;
         // for (size_t i = 0; i < RootMoves.size(); ++i)
@@ -340,14 +332,12 @@ goto_flag:
 
 namespace
 {
-
     // id_loop() is the main iterative deepening loop. It calls search() repeatedly
     // with increasing depth until the allocated thinking time has been consumed,
     // user stops the search, or the maximum search depth is reached.
 
     void id_loop(Position &pos)
     {
-
         Stack stack[MAX_PLY_PLUS_6], *ss = stack + 2; // To allow referencing (ss-2)
         int depth;
         Value bestValue, alpha, beta, delta;
@@ -531,7 +521,6 @@ namespace
     template <NodeType NT>
     Value search(Position &pos, Stack *ss, Value alpha, Value beta, Depth depth, bool cutNode)
     {
-
         const bool PvNode = (NT == PV || NT == Root || NT == SplitPointPV || NT == SplitPointRoot);
         const bool SpNode = (NT == SplitPointPV || NT == SplitPointNonPV || NT == SplitPointRoot);
         const bool RootNode = (NT == Root || NT == SplitPointRoot);

@@ -1,12 +1,12 @@
 //
-//  command-channel.h
+//  challenger-channel.h
 //  Runner
 //
 //  Created by 贺照云 on 2020/3/10.
 //
 
-#ifndef command_channel_h
-#define command_channel_h
+#ifndef challenger_channel_h
+#define challenger_channel_h
 
 void PrintLn(const char *sz, ...);
 
@@ -34,4 +34,4 @@ private:
     CommandQueue *responseQueue;
 };
 
-#endif /* command_channel_h */
+#endif /* challenger_channel_h */

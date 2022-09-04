@@ -30,7 +30,7 @@
 #include "tt.h"
 #include "ucioption.h"
 
-#include "command-channel.h"
+#include "challenger-channel.h"
 
 #ifdef _WIN32
 #include "windows.h"
@@ -46,7 +46,6 @@ extern void benchmark(const Position &pos, istream &is);
 
 namespace
 {
-
     // FEN string of the initial position, normal chess
     const char *StartFEN = "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1";
 
@@ -66,7 +65,6 @@ namespace
 
 void UCI::loop(const string &args)
 {
-
     Position pos(StartFEN, false, Threads.main()); // The root position
     string token, cmd = args;
 
@@ -181,7 +179,6 @@ void UCI::loop(const string &args)
 
 namespace
 {
-
     // position() is called when engine receives the "position" UCI command.
     // The function sets up the position described in the given fen string ("fen")
     // or the starting position ("startpos") and then makes the moves given in the
@@ -189,7 +186,6 @@ namespace
 
     void position(Position &pos, istringstream &is)
     {
-
         Move m;
         string token, fen;
 
@@ -231,7 +227,6 @@ namespace
 
     void setoption(istringstream &is)
     {
-
         string token, name, value;
 
         is >> token; // Consume "name" token
@@ -261,7 +256,6 @@ namespace
 
     void go(const Position &pos, istringstream &is)
     {
-
         Search::LimitsType limits;
         vector<Move> searchMoves;
         string token;

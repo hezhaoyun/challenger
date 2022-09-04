@@ -1,12 +1,12 @@
-﻿//
-//  command-queue.cpp
+//
+//  challenger-queue.cpp
 //  Runner
 //
 //  Created by 贺照云 on 2020/3/10.
 //
 
 #include <string.h>
-#include "command-queue.h"
+#include "challenger-queue.h"
 
 #pragma warning (disable: 4996)
 

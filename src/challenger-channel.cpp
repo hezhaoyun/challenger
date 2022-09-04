@@ -1,5 +1,5 @@
 //
-//  command-channel.cpp
+//  challenger-channel.cpp
 //  Runner
 //
 //  Created by 贺照云 on 2020/3/10.
@@ -9,8 +9,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-#include "command-queue.h"
-#include "command-channel.h"
+#include "challenger-queue.h"
+#include "challenger-channel.h"
 
 #ifdef _WIN32
 #include "windows.h"

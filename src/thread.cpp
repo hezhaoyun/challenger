@@ -34,7 +34,10 @@ namespace {
  // start_routine() is the C function which is called when a new thread
  // is launched. It is a wrapper to the virtual function idle_loop().
 
- extern "C" { long start_routine(ThreadBase* th) { th->idle_loop(); return 0; } }
+extern "C" long start_routine(ThreadBase* th) {
+    th->idle_loop();
+    return 0;
+}
 
 
  // Helpers to launch a thread after creation and joining before delete. Must be
@@ -196,11 +199,17 @@ void ThreadPool::init() {
 // exit() cleanly terminates the threads before the program exits
 
 void ThreadPool::exit() {
+    
+    if (timer) {
+        
+        delete_thread(timer); // As first because check_time() accesses threads data
 
-  delete_thread(timer); // As first because check_time() accesses threads data
-
-  for (iterator it = begin(); it != end(); ++it)
-      delete_thread(*it);
+        for (iterator it = begin(); it != end(); ++it)
+            delete_thread(*it);
+    
+        timer = NULL;
+        clear();
+    }
 }
 
 
