@@ -72,12 +72,8 @@ void UCI::loop(const string &args)
     {
         char line_str[8192];
         CommandChannel *channel = CommandChannel::getInstance();
-        while (!channel->popupCommand(line_str))
-            idle();
+        while (!channel->popupCommand(line_str)) idle();
         cmd = line_str;
-
-        // if (args.empty() && !getline(cin, cmd)) // Block here waiting for input
-        //    cmd = "quit";
 
         istringstream is(cmd);
 
@@ -96,7 +92,9 @@ void UCI::loop(const string &args)
                 Threads.main()->notify_one(); // Could be sleeping
             }
             else
+            {
                 Search::Limits.ponder = false;
+            }
         }
         else if (token == "perft" && (is >> token)) // Read perft depth
         {
@@ -126,14 +124,14 @@ void UCI::loop(const string &args)
             //           << "\nucciok" << sync_endl;
 
             PrintLn("id name %s", engine_info(true).c_str());
-            
+
             char buffer[8192];
             std::stringstream ss;
             ss << Options;
             ss >> buffer;
-            
+
             PrintLn(buffer);
-            
+
             PrintLn("ucciok");
         }
         else if (token == "eval")
@@ -171,7 +169,7 @@ void UCI::loop(const string &args)
         }
 
     } while (token != "quit" && args.empty()); // Args have one-shot behaviour
-    
+
     PrintLn("bye");
 
     Threads.wait_for_think_finished(); // Cannot quit while search is running
